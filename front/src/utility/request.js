@@ -8,15 +8,15 @@ export const http = {
                 headers['Content-Type'] = 'application/json';
             }
 
-            const response = await fetch(server + url, {method, body, headers});
+            const response = await fetch(server + url, { method, body, headers });
 
             if (response.status === 404) throw new Error('404: Not Found');
 
             const data = await response.json();
-            
+
             return data;
-        } catch(err) {
-            console.error(err);
+        } catch (err) {
+            throw new Error(err);
         }
     }
-}
+};
