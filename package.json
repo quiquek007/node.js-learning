@@ -4,11 +4,7 @@
   "description": "learning Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "task1": "nodemon ./task1/task.js",
-    "task2": "nodemon ./task2/task.js",
-    "task31": "npx babel-node ./task1/task.js",
-    "task32": "npx babel-node ./task2/task.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
   "author": "andrei_saiko@epam.com",
