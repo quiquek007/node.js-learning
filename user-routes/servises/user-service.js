@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import getAutoSuggestUsers from '../../utils/suggest-fn.js';
 
 export default class UserService {
     constructor(provider) {
@@ -36,9 +37,20 @@ export default class UserService {
 
     async updateUser(req) {
         const [user] = await this.provider.getUserById(req.id);
-        console.log('user', user);
-        console.log('req', req);
         await user.update({ ...req });
         await user.save();
+    }
+
+    async getSuggestionsList(suggestion) {
+        const limit = 3;
+        const data = await this.provider.getAllUsers();
+
+        return (
+            getAutoSuggestUsers.call(
+                data.map(e => e.dataValues),
+                suggestion,
+                limit
+            ) || []
+        );
     }
 }

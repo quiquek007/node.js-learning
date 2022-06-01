@@ -1,16 +1,16 @@
 import React from 'react';
 import { http } from '../utility/request';
 
-export default class UserSearcher extends React.Component {
+export default class GroupSearcher extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { uuid: '', data: [] };
+        this.state = { id: '', data: [] };
         this.findHandler = this.onFind.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this);
     }
 
     async onFind() {
-        const response = await http.request(`/user/${this.state.uuid}`, 'GET');
+        const response = await http.request(`/group/${this.state.id}`, 'GET');
         if (response) this.props.onFind(response);
     }
 
@@ -19,21 +19,21 @@ export default class UserSearcher extends React.Component {
         let suggestions = [];
 
         if (event.target.value.length > 1) {
-            suggestions = await http.request(`/user/suggestions/${event.target.value}`, 'GET');
+            suggestions = await http.request(`/group/suggestions/${event.target.value}`, 'GET');
             this.setState({ data: suggestions });
         }
 
-        this.setState({ uuid: event.target.value });
+        this.setState({ id: event.target.value });
     }
 
     render() {
         return (
             <React.Fragment>
-                <label htmlFor="userId">Find user by (id/login): </label>
-                <input type="text" name="text" list="option-list" id="userId" onChange={this.onChangeHandler} />
-                <datalist id="option-list">
+                <label htmlFor="userId">Find group by (id/login): </label>
+                <input type="text" name="text" list="group-list" id="userId" onChange={this.onChangeHandler} />
+                <datalist id="group-list">
                     {this.state.data.map((item, key) => (
-                        <option key={key} value={item.login} />
+                        <option key={key} value={item.name} />
                     ))}
                 </datalist>
                 <button onClick={this.findHandler}>Find</button>

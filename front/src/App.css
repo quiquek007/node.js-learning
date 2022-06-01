@@ -5,3 +5,8 @@
 .user-creator {
   margin: 10px 0;
 }
+
+.users-and-groups {
+  display: flex;
+  justify-content: space-around;
+}

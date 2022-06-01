@@ -42,5 +42,10 @@ router.put('/user', (req, res) => {
 
     res.status(200).json('success');
 });
+router.get('/user/suggestions/:suggestion', async (req, res) => {
+    const list = await userService.getSuggestionsList(req.params.suggestion);
+
+    res.status(200).json(list);
+});
 
 export default router;

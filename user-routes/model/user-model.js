@@ -4,7 +4,7 @@ import SequelizeConnection from '../../sequelize-connection.js';
 export default new SequelizeConnection().define('Users', {
     // Model attributes are defined here
     id: {
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         primaryKey: true,
         unique: true
     },

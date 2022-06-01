@@ -1,0 +1,19 @@
+import { DataTypes } from 'sequelize';
+import SequelizeConnection from '../../sequelize-connection.js';
+
+export default new SequelizeConnection().define('Groups', {
+    // Model attributes are defined here
+    id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+        unique: true
+    },
+    name: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    permissions: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: false
+    }
+});

@@ -1,7 +1,8 @@
 import express from 'express';
 import SequelizeConnection from './sequelize-connection.js';
-import suggestionsRouter from './suggestions-routes/controllers/suggestions-controller.js';
 import userRouter from './user-routes/controllers/user-controller.js';
+import groupRouter from './group-routes/controllers/group-controller.js';
+import userGroupRouter from './user-group-routes/controllers/user-group-controller.js';
 
 // DB connection
 new SequelizeConnection();
@@ -30,7 +31,8 @@ app.listen(port, () => {
 });
 
 app.use('/', userRouter);
-app.use('/', suggestionsRouter);
+app.use('/', groupRouter);
+app.use('/', userGroupRouter);
 
 // DRAFT
 // import postgresql from 'pg';
