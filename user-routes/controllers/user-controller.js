@@ -62,9 +62,12 @@ router.put('/user', (req, res) => {
 });
 router.get('/user/suggestions/:suggestion', async (req, res) => {
     try {
-        const list = await userService.getSuggestionsList(req.params.suggestion);
-
-        res.status(200).json(list);
+        userService
+            .getSuggestionsList(req.params.suggestion)
+            .then(list => res.status(200).json(list))
+            .catch(err => {
+                throw err;
+            });
     } catch (error) {
         console.log(error.stack, 'params: ', req.params.suggestion);
         res.status(404).send(error.stack);

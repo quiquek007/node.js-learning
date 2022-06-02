@@ -40,18 +40,9 @@ app.use((err, req, res, next) => {
     next(); // calling next middleware function or handler
 });
 
-// DRAFT
-// import postgresql from 'pg';
-// const { Client } = postgresql;
-// const client = new Client({
-//     user: 'postgres',
-//     database: 'node.js-learning',
-//     password: 'admin',
-//     port: 5432
-// });
-// client.connect();
-
-// client.query(dataSql, (err, res) => {
-//     console.log(err, res);
-//     client.end();
-// });
+// eslint-disable-next-line no-undef
+process.on('uncaughtException', err => {
+    console.error('There was an uncaught error', err);
+    // eslint-disable-next-line no-undef
+    process.exit(1); // mandatory (as per the Node.js docs)
+});
