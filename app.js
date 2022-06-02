@@ -34,6 +34,12 @@ app.use('/', userRouter);
 app.use('/', groupRouter);
 app.use('/', userGroupRouter);
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+    next(); // calling next middleware function or handler
+});
+
 // DRAFT
 // import postgresql from 'pg';
 // const { Client } = postgresql;

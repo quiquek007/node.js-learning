@@ -10,7 +10,7 @@ export default class UserService {
         const all = await this.provider.getAllUsers();
         const user = all.find(({ dataValues: u }) => !u.isDeleted && (u.id === id || u.login === id));
 
-        return user?.dataValues;
+        return user.dataValues;
     }
 
     createUser(req) {

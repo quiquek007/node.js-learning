@@ -21,31 +21,54 @@ router.get('/user', (req, res) => {
     res.status(404).json(null);
 });
 router.get('/user/:id', async (req, res) => {
-    const user = await userService.getUser(req.params.id);
+    try {
+        const user = await userService.getUser(req.params.id);
 
-    if (!user) return res.status(404).json('fail');
-
-    res.status(200).json(user);
+        res.status(200).json(user);
+    } catch (error) {
+        console.log(error.stack, 'params: ', req.params.id);
+        res.status(404).send(error.stack);
+    }
 });
 router.delete('/user/:id', (req, res) => {
-    userService.deleteUser(req.params.id);
+    try {
+        userService.deleteUser(req.params.id);
 
-    res.status(200).json('success');
+        res.status(200).json('success');
+    } catch (error) {
+        console.log(error.stack, 'params: ', req.params.id);
+        res.status(404).send(error.stack);
+    }
 });
 router.post('/user', validator.body(schema), (req, res) => {
-    const uuid = userService.createUser(req.body);
+    try {
+        const uuid = userService.createUser(req.body);
 
-    res.status(200).json(uuid);
+        res.status(200).json(uuid);
+    } catch (error) {
+        console.log(error.stack, 'params: ', req.body);
+        res.status(404).send(error.stack);
+    }
 });
 router.put('/user', (req, res) => {
-    userService.updateUser(req.body);
+    try {
+        userService.updateUser(req.body);
 
-    res.status(200).json('success');
+        res.status(200).json('success');
+    } catch (error) {
+        console.log(error.stack, 'params: ', req.body);
+        res.status(404).send(error.stack);
+    }
 });
 router.get('/user/suggestions/:suggestion', async (req, res) => {
-    const list = await userService.getSuggestionsList(req.params.suggestion);
+    try {
+        const list = await userService.getSuggestionsList(req.params.suggestion);
 
-    res.status(200).json(list);
+        res.status(200).json(list);
+    } catch (error) {
+        console.log(error.stack, 'params: ', req.params.suggestion);
+        res.status(404).send(error.stack);
+    }
 });
 
 export default router;
