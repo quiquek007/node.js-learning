@@ -1,11 +1,12 @@
 import express from 'express';
+import { verifyToken } from '../../login-routes/services/verifytoken.js';
 import GroupProvider from '../data-access/group-provider.js';
 import GroupService from '../services/group.service.js';
 
 const groupRouter = express.Router();
 const groupService = new GroupService(new GroupProvider());
 
-groupRouter.get('/group/all', async (req, res) => {
+groupRouter.get('/group/all', verifyToken, async (req, res) => {
     try {
         const group = await groupService.getAll();
 
@@ -15,7 +16,7 @@ groupRouter.get('/group/all', async (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-groupRouter.get('/group/:id', async (req, res) => {
+groupRouter.get('/group/:id', verifyToken, async (req, res) => {
     try {
         const group = await groupService.getGroup(req.params.id);
 
@@ -25,7 +26,7 @@ groupRouter.get('/group/:id', async (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-groupRouter.post('/group', async (req, res) => {
+groupRouter.post('/group', verifyToken, async (req, res) => {
     try {
         const group = groupService.createGroup(req.body);
 
@@ -35,7 +36,7 @@ groupRouter.post('/group', async (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-groupRouter.put('/group', (req, res) => {
+groupRouter.put('/group', verifyToken, (req, res) => {
     try {
         groupService.updateGroup(req.body);
 
@@ -45,7 +46,7 @@ groupRouter.put('/group', (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-groupRouter.delete('/group/:id', (req, res) => {
+groupRouter.delete('/group/:id', verifyToken, (req, res) => {
     try {
         groupService.deleteGroup(req.params.id);
 
@@ -55,7 +56,7 @@ groupRouter.delete('/group/:id', (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-groupRouter.get('/group/suggestions/:suggestion', async (req, res) => {
+groupRouter.get('/group/suggestions/:suggestion', verifyToken, async (req, res) => {
     try {
         const list = await groupService.getSuggestionsList(req.params.suggestion);
 

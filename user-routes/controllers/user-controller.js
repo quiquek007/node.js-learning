@@ -3,6 +3,7 @@ import Joi from 'joi';
 import { createValidator } from 'express-joi-validation';
 import UserService from '../servises/user-service.js';
 import UserProvider from '../data-access/user-provider.js';
+import { verifyToken } from '../../login-routes/services/verifytoken.js';
 
 const userService = new UserService(new UserProvider());
 const router = express.Router();
@@ -20,7 +21,7 @@ const schema = Joi.object({
 router.get('/user', (req, res) => {
     res.status(404).json(null);
 });
-router.get('/user/:id', async (req, res) => {
+router.get('/user/:id', verifyToken, async (req, res) => {
     try {
         const user = await userService.getUser(req.params.id);
 
@@ -30,7 +31,7 @@ router.get('/user/:id', async (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-router.delete('/user/:id', (req, res) => {
+router.delete('/user/:id', verifyToken, (req, res) => {
     try {
         userService.deleteUser(req.params.id);
 
@@ -40,7 +41,7 @@ router.delete('/user/:id', (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-router.post('/user', validator.body(schema), (req, res) => {
+router.post('/user', verifyToken, validator.body(schema), (req, res) => {
     try {
         const uuid = userService.createUser(req.body);
 
@@ -50,7 +51,7 @@ router.post('/user', validator.body(schema), (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-router.put('/user', (req, res) => {
+router.put('/user', verifyToken, (req, res) => {
     try {
         userService.updateUser(req.body);
 
@@ -60,7 +61,7 @@ router.put('/user', (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-router.get('/user/suggestions/:suggestion', async (req, res) => {
+router.get('/user/suggestions/:suggestion', verifyToken, async (req, res) => {
     try {
         userService
             .getSuggestionsList(req.params.suggestion)

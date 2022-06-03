@@ -1,9 +1,11 @@
+import cors from 'cors';
 import express from 'express';
 import winston from 'winston';
 import SequelizeConnection from './sequelize-connection.js';
 import userRouter from './user-routes/controllers/user-controller.js';
 import groupRouter from './group-routes/controllers/group-controller.js';
 import userGroupRouter from './user-group-routes/controllers/user-group-controller.js';
+import loginRouter from './login-routes/controllers/login-controller.js';
 
 // DB connection
 new SequelizeConnection();
@@ -11,6 +13,12 @@ new SequelizeConnection();
 const app = express();
 // eslint-disable-next-line no-undef
 const port = Number(process.env.PORT) || 4200;
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+};
 const logConfiguration = {
     transports: [
         new winston.transports.Console({
@@ -24,21 +32,8 @@ const logConfiguration = {
 };
 const logger = winston.createLogger(logConfiguration);
 
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(function (req, res, next) {
-    // Website you wish to allow to connect running front-end application on port 3000
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
-    // Set to true if you need the website to include cookies in the requests sent to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    // Pass to next layer of middleware
-    res.set('Cache-Control', 'no-store');
-    next();
-});
-
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
@@ -49,6 +44,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use('/', loginRouter);
 app.use('/', userRouter);
 app.use('/', groupRouter);
 app.use('/', userGroupRouter);

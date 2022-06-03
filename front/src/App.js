@@ -6,6 +6,7 @@ import GroupCreator from './group-creator/group-creator';
 import GroupSearcher from './group-sercher/group-sercher';
 import GroupAll from './group-all/group-all';
 import Linker from './linker/linker';
+import Login from './login/login';
 
 function App() {
     const [user, setUser] = useState({ login: '', password: '', age: 10, id: '' });
@@ -28,6 +29,7 @@ function App() {
                 </section>
             </div>
             <Linker />
+            <Login />
         </main>
     );
 }

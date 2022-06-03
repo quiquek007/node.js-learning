@@ -8,9 +8,9 @@ export default class UserProvider {
         return await UserModel.findAll();
     }
 
-    async getUserById(id) {
+    async getUserByCondition(condition) {
         await UserModel.sync({ alter: true });
-        return UserModel.findAll({ where: { id } });
+        return UserModel.findOne(condition);
     }
 
     async buildUser(description) {

@@ -1,4 +1,4 @@
-const server = 'http://localhost:4200';
+const proxy = 'http://localhost:4200';
 
 export const http = {
     request: async (url, method = 'GET', body = null, headers = {}) => {
@@ -8,7 +8,8 @@ export const http = {
                 headers['Content-Type'] = 'application/json';
             }
 
-            const response = await fetch(server + url, { method, body, headers });
+            headers['x-access-token'] = sessionStorage.getItem('token');
+            const response = await fetch(proxy + url, { method, body, headers });
 
             if (response.status === 404) throw new Error('404: Not Found');
 

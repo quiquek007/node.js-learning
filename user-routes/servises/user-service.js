@@ -28,7 +28,7 @@ export default class UserService {
     }
 
     async deleteUser(id) {
-        const [user] = await this.provider.getUserById(id);
+        const user = await this.provider.getUserByCondition({ where: { id } });
         const updatedUser = { ...user.dataValues, isDeleted: true };
         delete updatedUser.apdatedAt;
         delete updatedUser.createdAt;
@@ -36,7 +36,7 @@ export default class UserService {
     }
 
     async updateUser(req) {
-        const [user] = await this.provider.getUserById(req.id);
+        const user = await this.provider.getUserByCondition({ where: { id: req.id } });
         await user.update({ ...req });
         await user.save();
     }
