@@ -6,7 +6,7 @@ import UserProvider from '../data-access/user-provider.js';
 import { verifyToken } from '../../login-routes/services/verifytoken.js';
 
 const userService = new UserService(new UserProvider());
-const router = express.Router();
+const userRouter = express.Router();
 const validator = createValidator();
 const schema = Joi.object({
     login: Joi.string().required(),
@@ -18,10 +18,10 @@ const schema = Joi.object({
     age: Joi.number().min(4).max(130).required()
 });
 
-router.get('/user', (req, res) => {
-    res.status(404).json(null);
+userRouter.get('/user', (req, res) => {
+    res.status(404).send('UserId is required!');
 });
-router.get('/user/:id', verifyToken, async (req, res) => {
+userRouter.get('/user/:id', verifyToken, async (req, res) => {
     try {
         const user = await userService.getUser(req.params.id);
 
@@ -31,7 +31,7 @@ router.get('/user/:id', verifyToken, async (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-router.delete('/user/:id', verifyToken, (req, res) => {
+userRouter.delete('/user/:id', verifyToken, (req, res) => {
     try {
         userService.deleteUser(req.params.id);
 
@@ -41,7 +41,7 @@ router.delete('/user/:id', verifyToken, (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-router.post('/user', verifyToken, validator.body(schema), (req, res) => {
+userRouter.post('/user', verifyToken, validator.body(schema), (req, res) => {
     try {
         const uuid = userService.createUser(req.body);
 
@@ -51,7 +51,7 @@ router.post('/user', verifyToken, validator.body(schema), (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-router.put('/user', verifyToken, (req, res) => {
+userRouter.put('/user', verifyToken, (req, res) => {
     try {
         userService.updateUser(req.body);
 
@@ -61,7 +61,7 @@ router.put('/user', verifyToken, (req, res) => {
         res.status(404).send(error.stack);
     }
 });
-router.get('/user/suggestions/:suggestion', verifyToken, async (req, res) => {
+userRouter.get('/user/suggestions/:suggestion', verifyToken, async (req, res) => {
     try {
         userService
             .getSuggestionsList(req.params.suggestion)
@@ -75,4 +75,4 @@ router.get('/user/suggestions/:suggestion', verifyToken, async (req, res) => {
     }
 });
 
-export default router;
+export default userRouter;
