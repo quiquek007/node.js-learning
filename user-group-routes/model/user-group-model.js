@@ -1,7 +1,6 @@
 import { DataTypes } from 'sequelize';
-import SequelizeConnection from '../../sequelize-connection.js';
 
-export default new SequelizeConnection().define('UserGroups', {
+export default {
     // Model attributes are defined here
     userId: {
         type: DataTypes.STRING,
@@ -11,4 +10,4 @@ export default new SequelizeConnection().define('UserGroups', {
         type: DataTypes.STRING,
         allowNull: false
     }
-});
+};

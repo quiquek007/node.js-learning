@@ -4,15 +4,16 @@ import userGroupModel from '../model/user-group-model.js';
 export default class UserGroupService {
     constructor(provider) {
         this.provider = provider;
+        this.UserGroupsModel = new SequelizeConnection().define('UserGroups', userGroupModel);
     }
 
     async addUsersToGroup(groupId, userIds) {
-        await userGroupModel.sync({ alter: true });
+        await this.UserGroupsModel.sync({ alter: true });
         const t = await new SequelizeConnection().transaction();
 
         try {
             for (let index = 0; index < userIds.length; index++) {
-                await userGroupModel.create(
+                await this.UserGroupsModel.create(
                     {
                         userId: userIds[index],
                         groupId

@@ -1,7 +1,6 @@
 import { DataTypes } from 'sequelize';
-import SequelizeConnection from '../../sequelize-connection.js';
 
-export default new SequelizeConnection().define('Users', {
+export default {
     // Model attributes are defined here
     id: {
         type: DataTypes.STRING,
@@ -24,7 +23,7 @@ export default new SequelizeConnection().define('Users', {
         type: DataTypes.BOOLEAN,
         defaultValue: false
     }
-});
+};
 
 // await User.sync({ alter: true });
 // await sequelize.drop();

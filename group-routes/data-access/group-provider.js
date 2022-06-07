@@ -1,26 +1,29 @@
+import SequelizeConnection from '../../sequelize-connection.js';
 import GroupModel from '../model/group-model.js';
 
 export default class GroupProvider {
-    constructor() {}
+    constructor() {
+        this.groupModel = new SequelizeConnection().define('Groups', GroupModel);
+    }
 
     async getGroup(condition) {
-        await GroupModel.sync({ alter: true });
-        return await GroupModel.findOne(condition);
+        await this.groupModel.sync({ alter: true });
+        return await this.groupModel.findOne(condition);
     }
 
     async buildGroup(description) {
-        await GroupModel.sync({ alter: true });
-        const group = GroupModel.build(description);
+        await this.groupModel.sync({ alter: true });
+        const group = this.groupModel.build(description);
         await group.save();
     }
 
     async getAllGroups(condition) {
-        await GroupModel.sync({ alter: true });
-        return await GroupModel.findAll(condition);
+        await this.groupModel.sync({ alter: true });
+        return await this.groupModel.findAll(condition);
     }
 
     async deleteGroup(condition) {
-        await GroupModel.sync({ alter: true });
-        return await GroupModel.destroy(condition);
+        await this.groupModel.sync({ alter: true });
+        return await this.groupModel.destroy(condition);
     }
 }

@@ -1,7 +1,6 @@
 import { DataTypes } from 'sequelize';
-import SequelizeConnection from '../../sequelize-connection.js';
 
-export default new SequelizeConnection().define('Groups', {
+export default {
     // Model attributes are defined here
     id: {
         type: DataTypes.STRING,
@@ -16,4 +15,4 @@ export default new SequelizeConnection().define('Groups', {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false
     }
-});
+};
